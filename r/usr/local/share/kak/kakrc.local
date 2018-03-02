@@ -1,0 +1,77 @@
+################################################################################
+# ──────────────────────────────────────────────────────────────────────────── #
+### Colors #####################################################################
+
+# Fix eye sore
+face MenuForeground black,magenta
+face MenuBackground magenta,black
+face Information magenta,black
+
+hook global WinCreate .* %{
+# Highlighting
+    addhl global regex '\h+$' 0:default,yellow
+    addhl global regex '\t' 0:default,green
+    addhl global regex '\n\z' 0:default,red
+    addhl global regex 'TODO' 0:default,magenta
+    addhl global regex 'FIXME' 0:default,magenta
+    addhl global regex 'XXX' 0:default,magenta
+}
+
+################################################################################
+# ──────────────────────────────────────────────────────────────────────────── #
+### UX #########################################################################
+
+# ncurses options
+set global ui_options ncurses_assistant=dilbert:ncurses_enable_mouse=false
+
+# Autoreload file
+set global autoreload yes
+
+# Status bar
+set global modelinefmt %{
+{{context_info}}
+{{mode_info}}
+| %val{cursor_line}:%val{cursor_char_column}
+| %val{bufname}
+| %opt{filetype}
+}
+# Not working
+#%opt{modeline-pos-percent}
+
+# Spaces not tabs
+#hook global InsertChar \t 'exec -draft h@'
+hook global InsertChar \t 'exec -draft -itersel h@'
+set global tabstop 4
+set global indentwidth 4
+
+hook global WinResize .* %{
+# Center cursor
+    set window scrolloff %sh{ echo $(expr $kak_window_height / 5),0 }
+}
+
+hook global WinCreate .* %{
+# Softwrapping
+    addhl global wrap -word -indent
+}
+
+# Get UNIX-like <c-w> and <c-u> functionality
+map global insert <c-w> '<esc>bdi'
+map global insert <c-u> '<esc>Ghd'
+
+################################################################################
+# ──────────────────────────────────────────────────────────────────────────── #
+### System interaction #########################################################
+### Dependencies: xclip ########################################################
+
+# System yank/paste
+map global user p '!xclip -o<ret>'
+map global user y '<a-|>xclip -i<ret>'
+
+# Define command "W" and bind `,w` to save with root privileges
+def W -docstring "Write the content of the buffer to a file using sudo" %{
+    exec -draft "\%<a-|>sudo tee %val{bufname}<ret>"
+}
+map global user w ':W<ret>'
+
+# Fuzzy finder with `:find`
+def find -params 1 -shell-candidates %{ find -type f } %{ edit %arg{1} }

@@ -1,0 +1,41 @@
+# Maximum and minimum number of peers to connect to per torrent.
+min_peers = 5
+max_peers = 10
+
+# Same as above but for seeding completed torrents (-1 = same as downloading)
+min_peers_seed = -1
+max_peers_seed = -1
+
+# Maximum number of simultanious uploads per torrent.
+max_uploads = 1
+
+# Global upload and download rate in KiB. "0" for unlimited.
+download_rate = 0
+upload_rate = 0
+
+# Default directory to save the downloaded torrents.
+directory = ~/downloads/torrents
+
+# Default session directory. Make sure you don't run multiple instance
+# of rtorrent using the same session directory. Perhaps using a
+# relative path?
+session = ~/downloads/torrents/.session
+
+# Watch a directory for new torrents, and stop those that have been
+# deleted.
+schedule = watch_directory,5,5,load_start=~/downloads/*.torrent
+
+# Close torrents when diskspace is low.
+schedule = low_diskspace,5,60,close_low_diskspace=1G
+
+# The ip address reported to the tracker.
+#ip = 12.34.56.78
+
+# Encryption options, set to none (default) or any combination of the following:
+# allow_incoming, try_outgoing, require, require_RC4, enable_retry, prefer_plaintext
+#
+# The example value allows incoming encrypted connections, starts unencrypted
+# outgoing connections but retries with encryption if they fail, preferring
+# plaintext to RC4 encryption after the encrypted handshake
+#
+encryption = require,require_RC4,allow_incoming,try_outgoing,enable_retry

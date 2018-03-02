@@ -1,0 +1,18 @@
+# Colorscheme
+eco pink
+
+# Proper symbols
+e scr.utf8 = true
+
+# Remove left line in disasm
+e asm.fcnlines = false
+
+# PEDA like overview
+"$show=drr;pd 10@eip;pxr 40@esp"
+
+(r4ge, #!pipe python2.7 /home/motoko/brogramming/r4ge/src/r4ge.py)
+(markMemSymbolic addr bytes name comment, #!pipe python2.7 /home/motoko/brogramming/r4ge/src/createVariable.py symb $0 $1 $2 $3)
+(addHook addr instructions bytes comment, #!pipe python2.7 /home/motoko/brogramming/r4ge/src/createVariable.py hook $0 $1 $2 $3)
+(addAssert addr assertions bytes comment, #!pipe python2.7 /home/motoko/brogramming/r4ge/src/createVariable.py assert $0 $1 $2)
+(createScript name, #!pipe python2.7 /home/motoko/brogramming/r4ge/src/createScript.py $0)
+(callFunction retval, #!pipe python2.7 /home/motoko/brogramming/r4ge/src/callFunction.py $0)

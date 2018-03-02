@@ -1,0 +1,89 @@
+" Enable number bar
+"set number
+"set relativenumber
+
+" Proper pasting from system clipboard
+nnoremap <F2> :set invpaste paste?<CR>
+set pastetoggle=<F2>
+set showmode
+
+" Status line
+set laststatus=2
+set statusline=%F%m%r%h%w\ (%{&ff}){%Y}\ [%l,%v][%p%%]
+hi StatusLine ctermfg=2 ctermbg=0
+hi StatusLineNC term=reverse ctermfg=0 ctermbg=7
+au InsertEnter * hi StatusLine ctermfg=1 ctermbg=0
+au InsertLeave * hi StatusLine ctermfg=2 ctermbg=0
+
+" Wrap lines
+set wrap
+
+" Enable syntax
+syntax on
+syntax enable
+au BufNewFile,BufRead *.conf set filetype=config
+
+" Center cursor
+set scrolloff=999
+
+" Enable filetype plugins
+filetype plugin indent on
+
+" Configure backspace so it acts as it should act
+set backspace=eol,start,indent
+
+" Search results
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+
+" If a file is changed outside of vim, automatically reload it without asking
+set autoread
+
+" Show matching brackets when text indicator is over them
+set showmatch
+
+" No annoying sound on errors
+set noerrorbells
+set novisualbell
+set t_vb=
+set tm=500
+
+" Set utf8 as standard encoding
+set encoding=utf8
+
+" Map <Space> to / (search)
+"map <space> /
+
+" Show wasted space
+set list lcs=precedes:\|,extends:\|,tab:>-,trail:\| 
+
+" Show EOF whitespace
+hi EmptyLines ctermbg=yellow
+match EmptyLines /\($\n\s*\)*\%$/ 
+
+" Map :W to save with missing permission
+command W :execute ':silent w !sudo tee % > /dev/null' | :edit!
+
+" Don't use nor save .viminfo files
+set viminfo=
+
+" Don't use swap file
+set noswapfile
+set nobackup
+
+" Tabs
+set tabstop=8
+set softtabstop=4
+set smarttab
+set ai
+set si
+set shiftwidth=4
+set expandtab
+
+" Folding
+set foldmethod=indent
+
+" Disable the fucking mouse support
+autocmd BufEnter * set mouse=
